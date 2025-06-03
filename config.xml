@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.ejemplo.timbrefresco" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>TimbreRecreo</name>
+    <description>Aplicación para reemplazar el timbre escolar con notificaciones push.</description>
+    <author email="tu@email.com" href="tu-sitio.com">Tu Nombre</author>
+    <content src="index.html" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <access origin="*" />
+    <preference name="android-minSdkVersion" value="21" />
+    <preference name="android-targetSdkVersion" value="34" />
+    <preference name="AndroidXEnabled" value="true" />
+    <preference name="GradlePluginGoogleServicesEnabled" value="true" />
+    <preference name="GradlePluginGoogleServicesVersion" value="4.4.0" />
+    <preference name="loglevel" value="DEBUG" />
+    <platform name="android">
+        <allow-navigation href="*" />
+        <resource-file src="google-services.json" target="app/google-services.json" />
+        <resource-file src="res/android/notification-channels.xml" target="app/src/main/res/xml/notification_channels.xml" />
+    </platform>
+</widget>

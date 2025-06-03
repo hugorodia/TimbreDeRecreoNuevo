@@ -1,0 +1,59 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Capacitor
+dist/
+android/build/
+android/app/build/
+android/capacitor-corda-android-plugins/build/
+android/app/src/main/assets/public/
+android/app/src/main/assets/capacitor.config.json
+android/app/src/main/res/xml/config.xml
+platforms/
+
+# Android
+.gradle/
+build/
+local.properties
+*.apk
+*.aar
+*.ap_
+*.aab
+*.dex
+*.class
+bin/
+gen/
+out/
+proguard/
+.externalNativeBuild
+.cxx/
+*.hprof
+
+# Sensitive files
+google-services.json
+keystore/
+GitHub Token/
+
+# Logs
+*.log
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project-specific exclusions
+apk_backup/
+build_log.txt
+PROMPT para recrear el APK Timbre De Recreo Nuevo.txt
+
+# Non-essential files
+android/app/src/androidTest/
+android/app/src/test/
+android/capacitor-corda-android-plugins/src/main/java/.gitkeep

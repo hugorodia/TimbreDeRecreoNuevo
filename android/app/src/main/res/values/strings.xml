@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">TimbreRecreo</string>
+    <string name="title_activity_main">TimbreRecreo</string>
+    <string name="package_name">com.ejemplo.timbrefresco</string>
+    <string name="custom_url_scheme">com.ejemplo.timbrefresco</string>
+    <string name="timbre_channel">timbre_channel</string>
+</resources>

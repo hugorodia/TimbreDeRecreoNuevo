@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Timbre de Recreo</title>
+    <script src="cordova.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <style>
+        body { 
+            text-align: center; 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding-bottom: 50px; /* Espacio para el banner */
+        }
+        button, input { margin: 5px; }
+        #timbreBtnImg { 
+            width: 150px; 
+            height: 150px; 
+            cursor: pointer; 
+        }
+        #timbreVideo { 
+            display: none; 
+            width: 150px; 
+            height: 150px; 
+        }
+        #admobBanner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px; /* Altura estándar para banners de AdMob */
+            background-color: #f0f0f0; /* Fondo por si el banner no carga */
+            z-index: 1000;
+        }
+        .privacy-link {
+            margin-top: 10px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div id="initialUI">
+        <h2>Timbre de Recreo</h2>
+        <input id="groupNameInput" placeholder="Nombre del grupo">
+        <button onclick="createGroup()">Crear grupo</button>
+        <br><br>
+        <input id="groupCodeInput" placeholder="Código del grupo">
+        <button onclick="joinGroup()">Unirse a un grupo</button>
+        <div class="privacy-link">
+            <button onclick="showPrivacyPolicy()">Política de Privacidad</button>
+        </div>
+    </div>
+    <div id="preceptorUI" style="display:none">
+        <h2>Timbre de Recreo</h2>
+        <p id="groupCodeDisplay"></p>
+        <img id="timbreBtnImg" src="media/timbre-btn.png" onclick="ringBell()" alt="Timbre">
+        <video id="timbreVideo" src="media/timbre-btn-latido.mp4" muted></video>
+        <br>
+        <button onclick="testBell()">Probar timbre</button>
+        <button onclick="leaveGroup()">Salir del grupo</button>
+        <div class="privacy-link">
+            <button onclick="showPrivacyPolicy()">Política de Privacidad</button>
+        </div>
+        <div id="admobBanner"></div>
+    </div>
+    <div id="profesorUI" style="display:none">
+        <h2>Timbre de Recreo</h2>
+        <p id="statusMessage">En espera de la notificación del preceptor</p>
+        <button onclick="testBell()">Probar timbre</button>
+        <button onclick="leaveGroup()">Salir del grupo</button>
+        <div class="privacy-link">
+            <button onclick="showPrivacyPolicy()">Política de Privacidad</button>
+        </div>
+        <div id="admobBanner"></div>
+    </div>
+    <script src="js/index.js"></script>
+    <script>
+        // Depurar carga de la imagen
+        var img = document.getElementById('timbreBtnImg');
+        img.onerror = function() {
+            console.error('Error cargando timbre-btn.png desde media/');
+            img.src = ''; // Limpiar si falla
+            img.alt = 'Error: Imagen no encontrada';
+        };
+    </script>
+</body>
+</html>
