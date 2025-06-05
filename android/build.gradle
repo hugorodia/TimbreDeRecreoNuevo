@@ -1,68 +1,17 @@
-apply plugin: 'com.android.application'
-
-android {
-namespace 'com.ejemplo.timbrefresco'
-compileSdk 35
-defaultConfig {
-applicationId 'com.ejemplo.timbrefresco'
-minSdk 23
-targetSdk 34
-versionCode 2
-versionName "1.0"
-testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-aaptOptions {
-ignoreAssetsPattern '!.svn:!.git:!.ds_store:!.scc:.:!CVS:!thumbs.db:!picasa.ini:!*~'
-}
-}
-signingConfigs {
-release {
-storeFile file('C:/Users/Casa/TimbreDeRecreoNuevo/keystore/timbre-recreo.keystore')
-storePassword 'timbrederecreo2025'
-keyAlias 'timbre_recreo_key'
-keyPassword 'timbrederecreo2025'
-}
-}
-buildTypes {
-release {
-minifyEnabled true
-proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-signingConfig signingConfigs.release
-}
-debug {
-signingConfig null
-}
-}
-compileOptions {
-sourceCompatibility JavaVersion.VERSION_17
-targetCompatibility JavaVersion.VERSION_17
-}
-}
-
+buildscript {
 repositories {
 google()
 mavenCentral()
 }
-
 dependencies {
-implementation 'com.google.android.gms:play-services-ads:23.2.0'
-implementation 'com.google.firebase:firebase-messaging:24.0.4'
-implementation 'androidx.appcompat:appcompat:1.7.0'
-implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
-implementation 'androidx.core:core-splashscreen:1.0.1'
-implementation project(':capacitor-android')
-testImplementation 'junit:junit:4.13.2'
-androidTestImplementation 'androidx.test.ext:junit:1.2.1'
-androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
-implementation project(':capacitor-corda-android-plugins')
+classpath 'com.android.tools.build:gradle:8.6.1'
+classpath 'com.google.gms:google-services:4.4.2'
+}
 }
 
-apply from: 'capacitor.build.gradle'
-
-try {
-def servicesJSON = file('google-services.json')
-if (servicesJSON.text) {
-apply plugin: 'com.google.gms.google-services'
+allprojects {
+repositories {
+google()
+mavenCentral()
 }
-} catch(Exception e) {
-logger.info("google-services.json not found, google-services plugin not applied. Push Notifications won't work")
 }
