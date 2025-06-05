@@ -14,19 +14,10 @@ aaptOptions {
 ignoreAssetsPattern '!.svn:!.git:!.ds_store:!.scc:.:!CVS:!thumbs.db:!picasa.ini:!*~'
 }
 }
-signingConfigs {
-release {
-storeFile file('C:/Users/Casa/TimbreDeRecreoNuevo/keystore/timbre-recreo.keystore')
-storePassword 'timbrederecreo2025'
-keyAlias 'timbre_recreo_key'
-keyPassword 'timbrederecreo2025'
-}
-}
 buildTypes {
 release {
 minifyEnabled true
 proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-signingConfig signingConfigs.release
 }
 debug {
 signingConfig null
@@ -53,7 +44,7 @@ implementation project(':capacitor-android')
 testImplementation 'junit:junit:4.13.2'
 androidTestImplementation 'androidx.test.ext:junit:1.2.1'
 androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
-implementation project(':capacitor-corda-android-plugins')
+implementation project(':capacitor-cordova-android-plugins')
 }
 
 apply from: 'capacitor.build.gradle'
