@@ -43,6 +43,13 @@ jobs:
     - name: Set up Gradle
       uses: gradle/actions/setup-gradle@v4
 
+    - name: Check debug keystore location
+      run: |
+        echo "Listing files in /home/runner/.android/"
+        ls -la /home/runner/.android/ || echo "Directory /home/runner/.android/ not found"
+        echo "Listing files in /home/runner/.config/.android/"
+        ls -la /home/runner/.config/.android/ || echo "Directory /home/runner/.config/.android/ not found"
+
     - name: Make gradlew executable
       run: chmod +x android/gradlew
 
