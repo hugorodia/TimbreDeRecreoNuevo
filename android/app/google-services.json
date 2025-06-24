@@ -1,0 +1,32 @@
+{
+  "project_info": {
+    "project_number": "209787149178",
+    "project_id": "timbrerecreo-dcd8d",
+    "storage_bucket": "timbrerecreo-dcd8d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209787149178:android:ff34e789162a06eb7214c3",
+        "android_client_info": {
+          "package_name": "com.ejemplo.timbrefresco"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTmds5U1TXMz2DZmxSFyiCO6Hz0W7I1n4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "mobile_ads_app_id": "ca-app-pub-1984103868240347~6502461992"
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

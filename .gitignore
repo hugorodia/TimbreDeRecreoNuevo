@@ -7,10 +7,9 @@ yarn-error.log
 dist/
 android/build/
 android/app/build/
-android/capacitor-corda-android-plugins/build/
+android/capacitor-cordova-android-plugins/build/
 android/app/src/main/assets/public/
 android/app/src/main/assets/capacitor.config.json
-android/app/src/main/res/xml/config.xml
 platforms/
 
 # Android
@@ -32,7 +31,6 @@ proguard/
 *.hprof
 
 # Sensitive files
-google-services.json
 keystore/
 GitHub Token/
 
@@ -56,4 +54,11 @@ PROMPT para recrear el APK Timbre De Recreo Nuevo.txt
 # Non-essential files
 android/app/src/androidTest/
 android/app/src/test/
-android/capacitor-corda-android-plugins/src/main/java/.gitkeep
+android/capacitor-cordova-android-plugins/src/main/java/.gitkeep
+android/app/src/main/res/xml/*
+
+# Web assets
+www/css/*
+www/media/*
+www/*.html
+!www/js/index.js

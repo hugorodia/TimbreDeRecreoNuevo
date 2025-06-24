@@ -46,7 +46,7 @@ function onDeviceReady() {
                             updateGroupMembership();
                         }).catch(function(error) {
                             console.error('Error actualizando members:', error);
-                            alert('Error al restaurar grupo: ' + error.message);
+                            showToast('Error al restaurar grupo: ' + error.message);
                             clearLocalStorage();
                             updateUI();
                         });
@@ -58,7 +58,7 @@ function onDeviceReady() {
                 }
             }).catch(function(error) {
                 console.error('Error verificando grupo:', error);
-                alert('Error al verificar grupo: ' + error.message);
+                showToast('Error al verificar grupo: ' + error.message);
                 clearLocalStorage();
                 updateUI();
             });
@@ -76,7 +76,7 @@ function onDeviceReady() {
         console.log('Resultado de permisos:', result);
         if (result.receive !== 'granted') {
             console.error('Permisos denegados');
-            alert('Habilita las notificaciones en ajustes');
+            showToast('Habilita las notificaciones en ajustes');
         } else {
             Capacitor.Plugins.PushNotifications.register();
         }
@@ -105,38 +105,52 @@ function onDeviceReady() {
     console.log('Listeners configurados');
 }
 
+async function showToast(message) {
+    try {
+        await Capacitor.Plugins.Toast.show({
+            text: message,
+            duration: 'long'
+        });
+        console.log('Toast mostrado:', message);
+    } catch (err) {
+        console.error('Error mostrando Toast:', err);
+        alert(message); // Fallback a alert si Toast falla
+    }
+}
+
 function initAdMob() {
     if (window.admob) {
         // Configurar banner
         admob.banner.config({
-            id: 'ca-app-pub-4946085342484331/3987464970', // Reemplaza con tu ID de banner de producción
-            isTesting: false,
+            id: 'ca-app-pub-1984103868240347/5191581455', // ID de TimbreBannerNuevo
+            isTesting: true,
             autoShow: true,
             position: 'bottom'
         });
         admob.banner.prepare().then(() => {
             console.log('Banner preparado con éxito');
-            admob.banner.show().then(() => {
-                console.log('Banner mostrado con éxito');
-            }).catch(err => {
-                console.error('Error mostrando banner:', err);
-            });
+            return admob.banner.show();
+        }).then(() => {
+            console.log('Banner mostrado con éxito');
         }).catch(err => {
-            console.error('Error preparando banner:', err);
+            console.error('Error con banner:', err);
+            showToast('Error cargando banner: ' + err.message);
         });
 
         // Configurar intersticial
         admob.interstitial.config({
-            id: 'ca-app-pub-4946085342484331/2302239400', // Reemplaza con tu ID de intersticial de producción
-            isTesting: false
+            id: 'ca-app-pub-1984103868240347/2871721630', // ID de TimbreInterstitialNuevo
+            isTesting: true
         });
         admob.interstitial.prepare().then(() => {
             console.log('Intersticial preparado con éxito');
         }).catch(err => {
             console.error('Error preparando intersticial:', err);
+            showToast('Error preparando intersticial: ' + err.message);
         });
     } else {
         console.log('AdMob no está disponible');
+        showToast('AdMob no está disponible');
     }
 }
 
@@ -144,10 +158,10 @@ function showInterstitialAd() {
     if (window.admob) {
         admob.interstitial.show().then(() => {
             console.log('Intersticial mostrado con éxito');
-            // Preparar el siguiente intersticial
-            admob.interstitial.prepare();
+            return admob.interstitial.prepare();
         }).catch(err => {
             console.error('Error mostrando intersticial:', err);
+            showToast('Error mostrando intersticial: ' + err.message);
         });
     }
 }
@@ -160,9 +174,11 @@ function updateGroupMembership() {
             activado: false,
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
         }, { merge: true }).then(function() {
+            showInterstitialAd();
             updateUI();
         }).catch(function(error) {
             console.error('Error actualizando membresía:', error);
+            showToast('Error actualizando membresía: ' + error.message);
             clearLocalStorage();
             updateUI();
         });
@@ -170,10 +186,11 @@ function updateGroupMembership() {
         db.collection('groups').doc(currentGroupCode).update({
             members: firebase.firestore.FieldValue.arrayUnion(preceptorToken)
         }).then(function() {
-            showInterstitialAd(); // Mostrar intersticial al unirse como profesor
+            showInterstitialAd();
             updateUI();
         }).catch(function(error) {
             console.error('Error actualizando membresía:', error);
+            showToast('Error actualizando membresía: ' + error.message);
             clearLocalStorage();
             updateUI();
         });
@@ -209,7 +226,7 @@ function showPrivacyPolicy() {
 function createGroup() {
     var groupName = document.getElementById('groupNameInput').value;
     if (!groupName) {
-        alert('Ingresa un nombre para el grupo');
+        showToast('Ingresa un nombre para el grupo');
         return;
     }
 
@@ -224,18 +241,18 @@ function createGroup() {
         localStorage.setItem('groupName', groupName);
         userRole = 'preceptor';
         localStorage.setItem('userRole', userRole);
-        showInterstitialAd(); // Mostrar intersticial al crear grupo
+        showInterstitialAd();
         updateUI();
     }).catch(function(error) {
         console.error('Error creando grupo:', error);
-        alert('Error al crear grupo: ' + error.message);
+        showToast('Error al crear grupo: ' + error.message);
     });
 }
 
 function joinGroup() {
     currentGroupCode = document.getElementById('groupCodeInput').value.toUpperCase();
     if (!currentGroupCode) {
-        alert('Ingresa un código de grupo');
+        showToast('Ingresa un código de grupo');
         return;
     }
 
@@ -247,25 +264,25 @@ function joinGroup() {
                 userRole = 'profesor';
                 localStorage.setItem('groupCode', currentGroupCode);
                 localStorage.setItem('userRole', userRole);
-                showInterstitialAd(); // Mostrar intersticial al unirse
+                showInterstitialAd();
                 updateUI();
             }).catch(function(error) {
                 console.error('Error actualizando grupo:', error);
-                alert('Error al unirse al grupo: ' + error.message);
+                showToast('Error al unirse al grupo: ' + error.message);
             });
         } else {
-            alert('Código de grupo no válido');
+            showToast('Código de grupo no válido');
         }
     }).catch(function(error) {
         console.error('Error verificando grupo:', error);
-        alert('Error al verificar grupo: ' + error.message);
+        showToast('Error al verificar grupo: ' + error.message);
     });
 }
 
 function leaveGroup() {
     if (!currentGroupCode || !userRole || !preceptorToken) {
         console.error('No estás en un grupo o falta token', { currentGroupCode, userRole, preceptorToken });
-        alert('No estás en un grupo');
+        showToast('No estás en un grupo');
         clearLocalStorage();
         updateUI();
         return;
@@ -274,7 +291,7 @@ function leaveGroup() {
     db.collection('groups').doc(currentGroupCode).get().then(function(doc) {
         if (!doc.exists) {
             console.error('Grupo no encontrado:', currentGroupCode);
-            alert('El grupo no existe');
+            showToast('El grupo no existe');
             clearLocalStorage();
             updateUI();
             return;
@@ -283,7 +300,7 @@ function leaveGroup() {
         var members = doc.data().members || [];
         if (!members.includes(preceptorToken)) {
             console.error('Token no está en members:', preceptorToken, members);
-            alert('No eres miembro de este grupo');
+            showToast('No eres miembro de este grupo');
             clearLocalStorage();
             updateUI();
             return;
@@ -293,16 +310,16 @@ function leaveGroup() {
             members: firebase.firestore.FieldValue.arrayRemove(preceptorToken)
         }).then(function() {
             console.log('Salió del grupo:', currentGroupCode);
-            alert('Has salido del grupo');
+            showToast('Has salido del grupo');
             clearLocalStorage();
             updateUI();
         }).catch(function(error) {
             console.error('Error saliendo del grupo:', error);
-            alert('Error al salir del grupo: ' + error.message);
+            showToast('Error al salir del grupo: ' + error.message);
         });
     }).catch(function(error) {
         console.error('Error verificando grupo:', error);
-        alert('Error al verificar el grupo: ' + error.message);
+        showToast('Error al verificar el grupo: ' + error.message);
     });
 }
 
@@ -325,10 +342,10 @@ function ringBell() {
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onload = function() {
         if (xhr.status === 200) {
-            alert('Respuesta del servidor: ' + xhr.responseText);
+            showToast('Timbre activado: ' + xhr.responseText);
             playTimbre();
         } else {
-            alert('Error al activar el timbre: ' + xhr.status);
+            showToast('Error al activar el timbre: ' + xhr.status);
         }
         document.getElementById('timbreVideo').style.display = 'none';
         document.getElementById('timbreBtnImg').style.display = 'block';
@@ -343,7 +360,7 @@ function playTimbre() {
         .then(() => console.log('Timbre reproducido con éxito'))
         .catch(err => {
             console.error('Error al reproducir timbre:', err);
-            alert('Error al reproducir: ' + err.message);
+            showToast('Error al reproducir: ' + err.message);
         });
 }
 
