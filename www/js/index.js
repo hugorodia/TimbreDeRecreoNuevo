@@ -19,8 +19,8 @@ var db = firebase.firestore(app);
 function onDeviceReady() {
     console.log('Capacitor listo');
 
-    // Inicializar AdMob
-    initAdMob();
+    // Inicializar AdMob (comentado para evitar error)
+    // initAdMob();
 
     Capacitor.Plugins.FirebaseMessaging.getToken().then(function(result) {
         preceptorToken = result.token;
@@ -118,53 +118,53 @@ async function showToast(message) {
     }
 }
 
-function initAdMob() {
-    if (window.admob) {
-        // Configurar banner
-        admob.banner.config({
-            id: 'ca-app-pub-1984103868240347/5191581455', // ID de TimbreBannerNuevo
-            isTesting: true,
-            autoShow: true,
-            position: 'bottom'
-        });
-        admob.banner.prepare().then(() => {
-            console.log('Banner preparado con éxito');
-            return admob.banner.show();
-        }).then(() => {
-            console.log('Banner mostrado con éxito');
-        }).catch(err => {
-            console.error('Error con banner:', err);
-            showToast('Error cargando banner: ' + err.message);
-        });
+// function initAdMob() {
+//     if (window.admob) {
+//         // Configurar banner
+//         admob.banner.config({
+//             id: 'ca-app-pub-1984103868240347/5191581455', // ID de TimbreBannerNuevo
+//             isTesting: true,
+//             autoShow: true,
+//             position: 'bottom'
+//         });
+//         admob.banner.prepare().then(() => {
+//             console.log('Banner preparado con éxito');
+//             return admob.banner.show();
+//         }).then(() => {
+//             console.log('Banner mostrado con éxito');
+//         }).catch(err => {
+//             console.error('Error con banner:', err);
+//             showToast('Error cargando banner: ' + err.message);
+//         });
 
-        // Configurar intersticial
-        admob.interstitial.config({
-            id: 'ca-app-pub-1984103868240347/2871721630', // ID de TimbreInterstitialNuevo
-            isTesting: true
-        });
-        admob.interstitial.prepare().then(() => {
-            console.log('Intersticial preparado con éxito');
-        }).catch(err => {
-            console.error('Error preparando intersticial:', err);
-            showToast('Error preparando intersticial: ' + err.message);
-        });
-    } else {
-        console.log('AdMob no está disponible');
-        showToast('AdMob no está disponible');
-    }
-}
+//         // Configurar intersticial
+//         admob.interstitial.config({
+//             id: 'ca-app-pub-1984103868240347/2871721630', // ID de TimbreInterstitialNuevo
+//             isTesting: true
+//         });
+//         admob.interstitial.prepare().then(() => {
+//             console.log('Intersticial preparado con éxito');
+//         }).catch(err => {
+//             console.error('Error preparando intersticial:', err);
+//             showToast('Error preparando intersticial: ' + err.message);
+//         });
+//     } else {
+//         console.log('AdMob no está disponible');
+//         showToast('AdMob no está disponible');
+//     }
+// }
 
-function showInterstitialAd() {
-    if (window.admob) {
-        admob.interstitial.show().then(() => {
-            console.log('Intersticial mostrado con éxito');
-            return admob.interstitial.prepare();
-        }).catch(err => {
-            console.error('Error mostrando intersticial:', err);
-            showToast('Error mostrando intersticial: ' + err.message);
-        });
-    }
-}
+// function showInterstitialAd() {
+//     if (window.admob) {
+//         admob.interstitial.show().then(() => {
+//             console.log('Intersticial mostrado con éxito');
+//             return admob.interstitial.prepare();
+//         }).catch(err => {
+//             console.error('Error mostrando intersticial:', err);
+//             showToast('Error mostrando intersticial: ' + err.message);
+//         });
+//     }
+// }
 
 function updateGroupMembership() {
     if (userRole === 'preceptor') {
@@ -174,7 +174,7 @@ function updateGroupMembership() {
             activado: false,
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
         }, { merge: true }).then(function() {
-            showInterstitialAd();
+            // showInterstitialAd(); // Comentado
             updateUI();
         }).catch(function(error) {
             console.error('Error actualizando membresía:', error);
@@ -186,7 +186,7 @@ function updateGroupMembership() {
         db.collection('groups').doc(currentGroupCode).update({
             members: firebase.firestore.FieldValue.arrayUnion(preceptorToken)
         }).then(function() {
-            showInterstitialAd();
+            // showInterstitialAd(); // Comentado
             updateUI();
         }).catch(function(error) {
             console.error('Error actualizando membresía:', error);
@@ -241,7 +241,7 @@ function createGroup() {
         localStorage.setItem('groupName', groupName);
         userRole = 'preceptor';
         localStorage.setItem('userRole', userRole);
-        showInterstitialAd();
+        // showInterstitialAd(); // Comentado
         updateUI();
     }).catch(function(error) {
         console.error('Error creando grupo:', error);
@@ -264,7 +264,7 @@ function joinGroup() {
                 userRole = 'profesor';
                 localStorage.setItem('groupCode', currentGroupCode);
                 localStorage.setItem('userRole', userRole);
-                showInterstitialAd();
+                // showInterstitialAd(); // Comentado
                 updateUI();
             }).catch(function(error) {
                 console.error('Error actualizando grupo:', error);
